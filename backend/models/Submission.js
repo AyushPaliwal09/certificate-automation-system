@@ -3,29 +3,10 @@ import mongoose from "mongoose";
 
 const submissionSchema = new mongoose.Schema(
   {
-    fullName: {
-      type: String,
+    form: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Form",
       required: true,
-      trim: true,
-    },
-
-    email: {
-      type: String,
-      required: true,
-      lowercase: true,
-      trim: true,
-    },
-
-    college: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    department: {
-      type: String,
-      required: true,
-      trim: true,
     },
 
     event: {
@@ -34,16 +15,26 @@ const submissionSchema = new mongoose.Schema(
       required: true,
     },
 
+    answers: {
+      type: mongoose.Schema.Types.Mixed,
+      required: true,
+    },
+
     certificateId: {
       type: String,
-      required: true,
       unique: true,
+      sparse: true,
+    },
+
+    certificateUrl: {
+      type: String,
+      default: null,
     },
 
     status: {
       type: String,
-      enum: ["issued", "revoked"],
-      default: "issued",
+      enum: ["submitted", "issued", "failed", "revoked"],
+      default: "submitted",
     },
   },
   {
@@ -51,9 +42,6 @@ const submissionSchema = new mongoose.Schema(
   }
 );
 
-const Submission = mongoose.model(
-  "Submission",
-  submissionSchema
-);
+const Submission = mongoose.model("Submission", submissionSchema);
 
 export default Submission;

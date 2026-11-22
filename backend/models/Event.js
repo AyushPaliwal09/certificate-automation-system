@@ -12,6 +12,7 @@ const eventSchema = new mongoose.Schema(
     description: {
       type: String,
       default: "",
+      trim: true,
     },
 
     date: {
@@ -19,9 +20,21 @@ const eventSchema = new mongoose.Schema(
       required: true,
     },
 
-    isActive: {
-      type: Boolean,
-      default: true,
+    venue: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["upcoming", "active", "completed", "closed"],
+      default: "upcoming",
+    },
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin",
     },
   },
   {

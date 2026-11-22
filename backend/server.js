@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 
 import connectDB from "./config/db.js";
 import certificateRoutes from "./routes/certificateRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
+import formRoutes from "./routes/formRoutes.js";
+import submissionRoutes from "./routes/submissionRoutes.js";
 
 dotenv.config();
 
@@ -15,6 +18,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.json({
@@ -23,7 +27,10 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/api/events", eventRoutes);
+app.use("/api/forms", formRoutes);
 app.use("/api/certificates", certificateRoutes);
+app.use("/api/submissions", submissionRoutes);
 
 const PORT = process.env.PORT || 5000;
 
